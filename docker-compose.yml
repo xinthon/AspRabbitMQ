@@ -1,0 +1,27 @@
+services:
+  asprabbitmq:
+    image: ${DOCKER_REGISTRY-}asprabbitmq
+    build:
+      context: .
+      dockerfile: AspRabbitMQ/Dockerfile
+    environment:
+      - RabbitMQ__Host=amqp://asprabbitmq-queue:5672
+      - RabbitMQ__Username=guest
+      - RabbitMQ__Password=guest
+    ports:
+      - 5000:8080
+      - 5001:8081
+
+  asprabbitmq.queue:
+    image: rabbitmq:management-alpine
+    container_name: AspRabbitMQ.Queue
+    hostname: asprabbitmq-queue
+    volumes:
+      - ./containers/queue/data/:/var/lib/rabbitmq
+      - ./containers/queue/log/:/var/log/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - 5672:5672
+      - 15672:15672

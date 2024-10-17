@@ -1,0 +1,3 @@
+VHOST: /
+QUEUE: purchase-order-sent-consumer1_error
+INDEX: v2
